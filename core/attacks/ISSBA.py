@@ -805,15 +805,14 @@ class ISSBA(Base):
         if self.dataset_name == 'cifar10':
             self.post_transforms = PostTensorTransform(self.dataset_name).to(self.device)
 
-        self.work_dir = osp.join(self.current_schedule['save_dir'], self.current_schedule['experiment_name'] + '_' + time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime()))
+        self.work_dir = osp.join(self.current_schedule['save_dir'], self.current_schedule['experiment_name'] + '_' + time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime()))
         os.makedirs(self.work_dir, exist_ok=True)
         self.log = Log(osp.join(self.work_dir, 'log.txt'))
 
         if self.encoder is None:
             assert self.encoder_schedule is not None
             self.train_encoder_decoder(train_only=False)
-        # self.get_img()
-        self.get_img('/home/Yukun/BackdoorBox/ImageNet50/ISSBA')
+        self.get_img()
         del self.train_steg_set
 
         trainset, testset = self.train_dataset, self.test_dataset
@@ -920,7 +919,7 @@ class ISSBA(Base):
                 loss.backward()
                 optimizer.step()
                 loss_list.append(loss.item())
-            msg = time.strftime("[%Y-%m-%d_%H:%M:%S] ", time.localtime()) + 'Train [{}] Loss: {:.4f}\n'.format(i, np.mean(loss_list))
+            msg = time.strftime("[%Y-%m-%d_%H-%M-%S] ", time.localtime()) + 'Train [{}] Loss: {:.4f}\n'.format(i, np.mean(loss_list))
             self.log(msg)
 
             if (i + 1) % self.current_schedule['test_epoch_interval'] == 0 or i >= self.current_schedule['epochs'] - 20:
@@ -931,7 +930,7 @@ class ISSBA(Base):
                 top1_correct = int(round(prec1.item() / 100.0 * total_num))
                 top5_correct = int(round(prec5.item() / 100.0 * total_num))
                 msg = "==========Test result on benign test dataset==========\n" + \
-                      time.strftime("[%Y-%m-%d_%H:%M:%S] ", time.localtime()) + \
+                      time.strftime("[%Y-%m-%d_%H-%M-%S] ", time.localtime()) + \
                       f"Top-1 correct / Total: {top1_correct}/{total_num}, Top-1 accuracy: {top1_correct/total_num}, Top-5 correct / Total: {top5_correct}/{total_num}, Top-5 accuracy: {top5_correct/total_num} time: {time.time()-last_time}\n"
                 self.log(msg)
 
@@ -943,7 +942,7 @@ class ISSBA(Base):
                 top1_correct = int(round(prec1.item() / 100.0 * total_num))
                 top5_correct = int(round(prec5.item() / 100.0 * total_num))
                 msg = "==========Test result on poisoned test dataset==========\n" + \
-                      time.strftime("[%Y-%m-%d_%H:%M:%S] ", time.localtime()) + \
+                      time.strftime("[%Y-%m-%d_%H-%M-%S] ", time.localtime()) + \
                       f"Top-1 correct / Total: {top1_correct}/{total_num}, Top-1 accuracy: {top1_correct/total_num}, Top-5 correct / Total: {top5_correct}/{total_num}, Top-5 accuracy: {top5_correct/total_num}, time: {time.time()-last_time}\n"
                 self.log(msg)
 
@@ -1076,7 +1075,7 @@ class ISSBA(Base):
         else:
             device = torch.device("cpu")
 
-        work_dir = osp.join(self.current_schedule['save_dir'], self.current_schedule['experiment_name'] + '_' + time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime()))
+        work_dir = osp.join(self.current_schedule['save_dir'], self.current_schedule['experiment_name'] + '_' + time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime()))
         os.makedirs(work_dir, exist_ok=True)
         log = Log(osp.join(work_dir, 'log.txt'))
 
@@ -1089,7 +1088,7 @@ class ISSBA(Base):
             top1_correct = int(round(prec1.item() / 100.0 * total_num))
             top5_correct = int(round(prec5.item() / 100.0 * total_num))
             msg = "==========Test result on benign test dataset==========\n" + \
-                  time.strftime("[%Y-%m-%d_%H:%M:%S] ", time.localtime()) + \
+                  time.strftime("[%Y-%m-%d_%H-%M-%S] ", time.localtime()) + \
                   f"Top-1 correct / Total: {top1_correct}/{total_num}, Top-1 accuracy: {top1_correct/total_num}, Top-5 correct / Total: {top5_correct}/{total_num}, Top-5 accuracy: {top5_correct/total_num} time: {time.time()-last_time}\n"
             log(msg)
 
@@ -1102,7 +1101,7 @@ class ISSBA(Base):
             top1_correct = int(round(prec1.item() / 100.0 * total_num))
             top5_correct = int(round(prec5.item() / 100.0 * total_num))
             msg = "==========Test result on poisoned test dataset==========\n" + \
-                  time.strftime("[%Y-%m-%d_%H:%M:%S] ", time.localtime()) + \
+                  time.strftime("[%Y-%m-%d_%H-%M-%S] ", time.localtime()) + \
                   f"Top-1 correct / Total: {top1_correct}/{total_num}, Top-1 accuracy: {top1_correct/total_num}, Top-5 correct / Total: {top5_correct}/{total_num}, Top-5 accuracy: {top5_correct/total_num}, time: {time.time()-last_time}\n"
             log(msg)
 

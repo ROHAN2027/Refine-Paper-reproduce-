@@ -6,3 +6,12 @@ attack/*
 !attack/triggers/
 
 data/*
+
+# Model weights / checkpoints
+*.pth
+*.pt
+*.ckpt
+*.bin
+*.onnx
+*.h5
+*.weights

@@ -61,7 +61,7 @@ def test(model, dataset, schedule):
     if 'test_model' in schedule:
         model.load_state_dict(torch.load(schedule['test_model']), strict=False)
 
-    work_dir = osp.join(schedule['save_dir'], schedule['experiment_name'] + '_' + time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime()))
+    work_dir = osp.join(schedule['save_dir'], schedule['experiment_name'] + '_' + time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime()))
     os.makedirs(work_dir, exist_ok=True)
 
     print('saving...')
@@ -149,6 +149,6 @@ def test(model, dataset, schedule):
     top1_correct = int(round(prec1.item() / 100.0 * total_num))
     top5_correct = int(round(prec5.item() / 100.0 * total_num))
     msg = f"==========Test result on {schedule['metric']}==========\n" + \
-            time.strftime("[%Y-%m-%d_%H:%M:%S] ", time.localtime()) + \
+            time.strftime("[%Y-%m-%d_%H-%M-%S] ", time.localtime()) + \
             f"Top-1 correct / Total: {top1_correct}/{total_num}, Top-1 accuracy: {top1_correct/total_num}, Top-5 correct / Total: {top5_correct}/{total_num}, Top-5 accuracy: {top5_correct/total_num}, time: {time.time()-last_time}\n"
     log(msg)

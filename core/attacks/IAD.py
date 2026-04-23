@@ -400,7 +400,7 @@ class IAD(Base):
         schedulerM = torch.optim.lr_scheduler.MultiStepLR(optimizerM, self.current_schedule['milestones_M'], self.current_schedule['lambda_M'])
 
         # The path to save log files and checkpoints
-        work_dir = osp.join(self.current_schedule['save_dir'], self.current_schedule['experiment_name'] + '_' + time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime()))
+        work_dir = osp.join(self.current_schedule['save_dir'], self.current_schedule['experiment_name'] + '_' + time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime()))
         os.makedirs(work_dir, exist_ok=True)
         log = Log(osp.join(work_dir, 'log.txt'))
         self.work_dir = work_dir
@@ -426,12 +426,12 @@ class IAD(Base):
                 log(msg)
                 
                 total_loss, loss_norm, loss_div = self.train_mask_step(self.modelM, optimizerM, schedulerM, train_loader, train_loader1)
-                msg = time.strftime("[%Y-%m-%d_%H:%M:%S] ", time.localtime()) + "Train Mask loss: {:.4f} | Norm: {:.3f} | Diversity: {:.3f}\n".format(total_loss, loss_norm, loss_div)
+                msg = time.strftime("[%Y-%m-%d_%H-%M-%S] ", time.localtime()) + "Train Mask loss: {:.4f} | Norm: {:.3f} | Diversity: {:.3f}\n".format(total_loss, loss_norm, loss_div)
                 log(msg)
                 
                 loss_norm_eval, loss_div_eval = self.eval_mask(self.modelM, test_loader, test_loader1)
                 if epoch % self.current_schedule['test_epoch_interval'] == 0:
-                    msg = time.strftime("[%Y-%m-%d_%H:%M:%S] ", time.localtime()) + "Test Norm: {:.3f} | Diversity: {:.3f}\n".format(loss_norm_eval, loss_div_eval)
+                    msg = time.strftime("[%Y-%m-%d_%H-%M-%S] ", time.localtime()) + "Test Norm: {:.3f} | Diversity: {:.3f}\n".format(loss_norm_eval, loss_div_eval)
                     log(msg)
                 epoch += 1
 
@@ -460,7 +460,7 @@ class IAD(Base):
                 train_loader1
             )
 
-            msg = time.strftime("[%Y-%m-%d_%H:%M:%S] ", time.localtime()) + "Train CE loss: {:.4f} | BA: {:.3f} | ASR: {:.3f} | Cross Accuracy: {:3f}\n".format(
+            msg = time.strftime("[%Y-%m-%d_%H-%M-%S] ", time.localtime()) + "Train CE loss: {:.4f} | BA: {:.3f} | ASR: {:.3f} | Cross Accuracy: {:3f}\n".format(
                 avg_loss, acc_clean, acc_bd, acc_cross
             )
             log(msg)
@@ -476,15 +476,15 @@ class IAD(Base):
                     self.modelM
                 )
                 msg = "==========Test result on benign test dataset==========\n" + \
-                        time.strftime("[%Y-%m-%d_%H:%M:%S] ", time.localtime()) + \
+                        time.strftime("[%Y-%m-%d_%H-%M-%S] ", time.localtime()) + \
                         f"Accuracy: {avg_acc_clean}, time: {time.time()-last_time}\n"
                 log(msg)
                 msg = "==========Test result on poisoned test dataset==========\n" + \
-                        time.strftime("[%Y-%m-%d_%H:%M:%S] ", time.localtime()) + \
+                        time.strftime("[%Y-%m-%d_%H-%M-%S] ", time.localtime()) + \
                         f"Accuracy: {avg_acc_bd}, time: {time.time()-last_time}\n"
                 log(msg)
                 msg = "==========Test result on cross test dataset==========\n" + \
-                        time.strftime("[%Y-%m-%d_%H:%M:%S] ", time.localtime()) + \
+                        time.strftime("[%Y-%m-%d_%H-%M-%S] ", time.localtime()) + \
                         f"Accuracy: {avg_acc_cross}, time: {time.time()-last_time}\n"
                 log(msg)
 
@@ -535,7 +535,7 @@ class IAD(Base):
                 ckpt_model_path = os.path.join(work_dir, ckpt_model_filename)
                 # Save the best checkpoints
                 torch.save(best_state_dict, ckpt_model_path)
-                msg = time.strftime("[%Y-%m-%d_%H:%M:%S] ", time.localtime()) + \
+                msg = time.strftime("[%Y-%m-%d_%H-%M-%S] ", time.localtime()) + \
                     "Best Epoch {}: | Best BA: {:.3f} | Best ASR: {:.3f} | Best Cross Accuracy: {:3f}\n".format(
                         best_epoch, best_acc_clean, best_acc_bd, best_acc_cross
                     )

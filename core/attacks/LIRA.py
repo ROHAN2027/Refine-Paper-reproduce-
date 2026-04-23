@@ -518,7 +518,7 @@ class LIRA(Base):
         create_net = self.create_net()
         clip_image = self.clip_image
 
-        work_dir = osp.join(self.current_schedule['save_dir'], self.current_schedule['experiment_name'] + '_' + time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime()))
+        work_dir = osp.join(self.current_schedule['save_dir'], self.current_schedule['experiment_name'] + '_' + time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime()))
         os.makedirs(work_dir, exist_ok=True)
         log = Log(osp.join(work_dir, 'log.txt'))
 
@@ -542,7 +542,7 @@ class LIRA(Base):
                 atkloss, atkcleanloss, atkpoisonloss, atktriloss = self.train_step(atkmodel, tgtmodel, self.model, 
                                                                         tgtoptimizer, optimizer, target_transform, train_loader,
                                                                         create_net, clip_image, post_transforms=post_transforms)
-                msg = time.strftime("[%Y-%m-%d_%H:%M:%S] ", time.localtime()) + \
+                msg = time.strftime("[%Y-%m-%d_%H-%M-%S] ", time.localtime()) + \
                     'Train [{}] Loss: clean {:.4f} poison {:.4f} total {:.4f} Tri {:.4f}\n'.format(
                      epoch, atkcleanloss, atkpoisonloss, atkloss, atktriloss)
                 log(msg)
@@ -563,7 +563,7 @@ class LIRA(Base):
             top1_correct = int(round(prec1.item() / 100.0 * total_num))
             top5_correct = int(round(prec5.item() / 100.0 * total_num))
             msg = "==========Test result on benign test dataset==========\n" + \
-                    time.strftime("[%Y-%m-%d_%H:%M:%S] ", time.localtime()) + \
+                    time.strftime("[%Y-%m-%d_%H-%M-%S] ", time.localtime()) + \
                     f"Top-1 correct / Total: {top1_correct}/{total_num}, Top-1 accuracy: {top1_correct/total_num}, Top-5 correct / Total: {top5_correct}/{total_num}, Top-5 accuracy: {top5_correct/total_num} time: {time.time()-last_time}\n"
             log(msg)
             acc_clean = prec1
@@ -573,7 +573,7 @@ class LIRA(Base):
             top1_correct = int(round(prec1.item() / 100.0 * total_num))
             top5_correct = int(round(prec5.item() / 100.0 * total_num))
             msg = "==========Test result on poisoned test dataset==========\n" + \
-                    time.strftime("[%Y-%m-%d_%H:%M:%S] ", time.localtime()) + \
+                    time.strftime("[%Y-%m-%d_%H-%M-%S] ", time.localtime()) + \
                     f"Top-1 correct / Total: {top1_correct}/{total_num}, Top-1 accuracy: {top1_correct/total_num}, Top-5 correct / Total: {top5_correct}/{total_num}, Top-5 accuracy: {top5_correct/total_num}, time: {time.time()-last_time}\n"
             log(msg)
             acc_poison = prec1
@@ -829,7 +829,7 @@ class LIRA(Base):
             atkcleanloss = sum(loss_clean_list) / len(loss_clean_list)
             atkpoisonloss = sum(loss_poison_list) / len(loss_poison_list)
 
-            msg = time.strftime("[%Y-%m-%d_%H:%M:%S] ", time.localtime()) + \
+            msg = time.strftime("[%Y-%m-%d_%H-%M-%S] ", time.localtime()) + \
                 'Finetune [{}] Loss: clean {:.4f} poison {:.4f} total {:.4f}\n'.format(
                     cepoch, atkcleanloss, atkpoisonloss, atkloss)
             self.log(msg)
@@ -869,7 +869,7 @@ class LIRA(Base):
                 top1_correct = int(round(prec1.item() / 100.0 * total_num))
                 top5_correct = int(round(prec5.item() / 100.0 * total_num))
                 msg = "==========Test result on benign test dataset==========\n" + \
-                        time.strftime("[%Y-%m-%d_%H:%M:%S] ", time.localtime()) + \
+                        time.strftime("[%Y-%m-%d_%H-%M-%S] ", time.localtime()) + \
                         f"Top-1 correct / Total: {top1_correct}/{total_num}, Top-1 accuracy: {top1_correct/total_num}, Top-5 correct / Total: {top5_correct}/{total_num}, Top-5 accuracy: {top5_correct/total_num} time: {time.time()-self.last_time}\n"
                 self.log(msg)
                 acc_clean = prec1
@@ -879,7 +879,7 @@ class LIRA(Base):
                 top1_correct = int(round(prec1.item() / 100.0 * total_num))
                 top5_correct = int(round(prec5.item() / 100.0 * total_num))
                 msg = "==========Test result on poisoned test dataset==========\n" + \
-                        time.strftime("[%Y-%m-%d_%H:%M:%S] ", time.localtime()) + \
+                        time.strftime("[%Y-%m-%d_%H-%M-%S] ", time.localtime()) + \
                         f"Top-1 correct / Total: {top1_correct}/{total_num}, Top-1 accuracy: {top1_correct/total_num}, Top-5 correct / Total: {top5_correct}/{total_num}, Top-5 accuracy: {top5_correct/total_num}, time: {time.time()-self.last_time}\n"
                 self.log(msg)
                 acc_poison = prec1
@@ -908,7 +908,7 @@ class LIRA(Base):
                             'best_poison_acc': best_poison_acc
                         }, os.path.join(self.work_dir, 'best_model.th'))
                 if cepoch == trainepoch:
-                    msg = time.strftime("[%Y-%m-%d_%H:%M:%S] ", time.localtime()) + \
+                    msg = time.strftime("[%Y-%m-%d_%H-%M-%S] ", time.localtime()) + \
                         f"Best Clean accuracy: {best_clean_acc} Best Backdoor accuracy: {best_poison_acc} time: {time.time()-self.last_time}\n"
                     self.log(msg)
 
@@ -1003,7 +1003,7 @@ class LIRA(Base):
         else:
             device = torch.device("cpu")
 
-        work_dir = osp.join(self.current_schedule['save_dir'], self.current_schedule['experiment_name'] + '_' + time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime()))
+        work_dir = osp.join(self.current_schedule['save_dir'], self.current_schedule['experiment_name'] + '_' + time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime()))
         os.makedirs(work_dir, exist_ok=True)
         log = Log(osp.join(work_dir, 'log.txt'))
         
@@ -1014,7 +1014,7 @@ class LIRA(Base):
         top1_correct = int(round(prec1.item() / 100.0 * total_num))
         top5_correct = int(round(prec5.item() / 100.0 * total_num))
         msg = "==========Test result on benign test dataset==========\n" + \
-                time.strftime("[%Y-%m-%d_%H:%M:%S] ", time.localtime()) + \
+                time.strftime("[%Y-%m-%d_%H-%M-%S] ", time.localtime()) + \
                 f"Top-1 correct / Total: {top1_correct}/{total_num}, Top-1 accuracy: {top1_correct/total_num}, Top-5 correct / Total: {top5_correct}/{total_num}, Top-5 accuracy: {top5_correct/total_num} time: {time.time()-last_time}\n"
         log(msg)
 
@@ -1023,6 +1023,6 @@ class LIRA(Base):
         top1_correct = int(round(prec1.item() / 100.0 * total_num))
         top5_correct = int(round(prec5.item() / 100.0 * total_num))
         msg = "==========Test result on poisoned test dataset==========\n" + \
-                time.strftime("[%Y-%m-%d_%H:%M:%S] ", time.localtime()) + \
+                time.strftime("[%Y-%m-%d_%H-%M-%S] ", time.localtime()) + \
                 f"Top-1 correct / Total: {top1_correct}/{total_num}, Top-1 accuracy: {top1_correct/total_num}, Top-5 correct / Total: {top5_correct}/{total_num}, Top-5 accuracy: {top5_correct/total_num}, time: {time.time()-last_time}\n"
         log(msg)

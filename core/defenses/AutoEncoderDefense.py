@@ -117,7 +117,7 @@ class AutoEncoderDefense(Base):
         loss_func = torch.nn.BCELoss(reduction='mean')
         optimizer = torch.optim.Adam(self.autoencoder.parameters(), schedule['lr'], schedule['betas'], schedule['eps'], schedule['weight_decay'], schedule['amsgrad'])
 
-        work_dir = osp.join(schedule['save_dir'], schedule['experiment_name'] + '_' + time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime()))
+        work_dir = osp.join(schedule['save_dir'], schedule['experiment_name'] + '_' + time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime()))
         os.makedirs(work_dir, exist_ok=True)
         log = Log(osp.join(work_dir, 'log.txt'))
 
@@ -149,14 +149,14 @@ class AutoEncoderDefense(Base):
                 iteration += 1
 
                 if iteration % schedule['log_iteration_interval'] == 0:
-                    msg = time.strftime("[%Y-%m-%d_%H:%M:%S] ", time.localtime()) + f"Epoch:{i+1}/{schedule['epochs']}, iteration:{batch_id + 1}/{len(train_dataset)//schedule['batch_size']}, lr: {schedule['lr']}, loss: {float(loss)}, time: {time.time()-last_time}\n"
+                    msg = time.strftime("[%Y-%m-%d_%H-%M-%S] ", time.localtime()) + f"Epoch:{i+1}/{schedule['epochs']}, iteration:{batch_id + 1}/{len(train_dataset)//schedule['batch_size']}, lr: {schedule['lr']}, loss: {float(loss)}, time: {time.time()-last_time}\n"
                     last_time = time.time()
                     log(msg)
 
             if (i + 1) % schedule['test_epoch_interval'] == 0:
                 loss = self._test(test_dataset, device, schedule['batch_size'], schedule['num_workers'])
                 msg = "==========Test result on test dataset==========\n" + \
-                      time.strftime("[%Y-%m-%d_%H:%M:%S] ", time.localtime()) + \
+                      time.strftime("[%Y-%m-%d_%H-%M-%S] ", time.localtime()) + \
                       f"loss: {loss}, time: {time.time()-last_time}\n"
                 log(msg)
 

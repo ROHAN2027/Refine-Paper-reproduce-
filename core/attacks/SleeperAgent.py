@@ -358,7 +358,7 @@ class SleeperAgent(Base):
                 else:
                     full_asr = 0
 
-            msg =  "Epoch %d"%epoch + time.strftime("[%Y-%m-%d_%H:%M:%S] ", time.localtime()) + \
+            msg =  "Epoch %d"%epoch + time.strftime("[%Y-%m-%d_%H-%M-%S] ", time.localtime()) + \
                     "train_acc: %.2f, test_acc: %.2f, source_asr: %.2f, full_asr: %.2f\n"%(train_acc, test_acc, source_asr, full_asr)
             log(msg)
         
@@ -469,7 +469,7 @@ class SleeperAgent(Base):
                 predict_digits, labels = self._test(full_patch_testset, device, batch_size, num_workers, model)
                 test_asr = (predict_digits.max(1)[1]==labels).sum().item() * 100. / len(labels)
 
-                msg =  "Iter %d"%t + time.strftime("[%Y-%m-%d_%H:%M:%S] ", time.localtime()) + \
+                msg =  "Iter %d"%t + time.strftime("[%Y-%m-%d_%H-%M-%S] ", time.localtime()) + \
                     "source_acc: %.2f, source_asr: %.2f, test_acc: %.2f, test_asr: %.2f\n"%(source_test_acc, source_test_asr, test_acc, test_asr)
                 log(msg)
         poison_trainset = generate_poisoned_trainset(trainset, poison_set, poison_deltas, y_target, poison_ids)
@@ -509,7 +509,7 @@ class SleeperAgent(Base):
         # Use CPU
         else:
             device = torch.device("cpu")
-        work_dir = osp.join(self.current_schedule['save_dir'], self.current_schedule['experiment_name'] + '_' + time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime()))
+        work_dir = osp.join(self.current_schedule['save_dir'], self.current_schedule['experiment_name'] + '_' + time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime()))
         os.makedirs(work_dir, exist_ok=True)
         log = Log(osp.join(work_dir, 'log.txt'))
         

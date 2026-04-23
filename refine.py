@@ -100,7 +100,7 @@ class Adversarial_Reprogramming():
         self.poisoned_test_loader = DataLoader(poisoned_test_dataset, **kwargs)
 
     def init_mode(self):
-        self.save_dir = os.path.join(args.refine_res, args.dataset, args.model, args.attack, time.strftime('%Y-%m-%d_%H:%M:%S', time.localtime()))
+        self.save_dir = os.path.join(args.refine_res, args.dataset, args.model, args.attack, time.strftime('%Y-%m-%d_%H-%M-%S', time.localtime()))
         if not os.path.exists(self.save_dir):
             os.makedirs(self.save_dir)
         self.log = Log(os.path.join(self.save_dir, 'log.txt'))
@@ -139,7 +139,7 @@ class Adversarial_Reprogramming():
         acc = top1 / float(args.batch_size * len(self.test_loader))
         self.log('==========Test result on benign test dataset==========')
         self.log('[%s] Top-1 correct / Total: %d/%d, Top-1 accuracy: %.6f' % 
-                 (time.strftime('%Y-%m-%d_%H:%M:%S', time.localtime()), top1, args.batch_size * len(self.test_loader), acc))
+                 (time.strftime('%Y-%m-%d_%H-%M-%S', time.localtime()), top1, args.batch_size * len(self.test_loader), acc))
 
     def validate_poisoned(self):
         top1 = 0
@@ -158,9 +158,9 @@ class Adversarial_Reprogramming():
         asr_1 = top1_1 / float(args.batch_size * len(self.poisoned_test_loader))
         self.log('==========Test result on poisoned test dataset==========')
         self.log('[%s] Top-1 correct / Total: %d/%d, Top-1 accuracy: %.6f' % 
-                 (time.strftime('%Y-%m-%d_%H:%M:%S', time.localtime()), top1, args.batch_size * len(self.poisoned_test_loader), asr))
+                 (time.strftime('%Y-%m-%d_%H-%M-%S', time.localtime()), top1, args.batch_size * len(self.poisoned_test_loader), asr))
         # self.log('[%s] Top-1 (label %d) correct / Total: %d/%d, Top-1 accuracy: %.6f' % 
-        #          (time.strftime('%Y-%m-%d_%H:%M:%S', time.localtime()), args.arr_shuffle[0], top1_1, args.batch_size * len(self.poisoned_test_loader), asr_1))
+        #          (time.strftime('%Y-%m-%d_%H-%M-%S', time.localtime()), args.arr_shuffle[0], top1_1, args.batch_size * len(self.poisoned_test_loader), asr_1))
 
     def train(self):
         for epoch in range(args.epoch):
@@ -194,7 +194,7 @@ class Adversarial_Reprogramming():
 
             self.lr_scheduler.step()
             self.log('[%s] Epoch: %d/%d, lr: %lf, loss: %lf' % 
-                     (time.strftime('%Y-%m-%d_%H:%M:%S', time.localtime()), epoch+1, args.epoch, self.optim.param_groups[0]['lr'], self.loss))
+                     (time.strftime('%Y-%m-%d_%H-%M-%S', time.localtime()), epoch+1, args.epoch, self.optim.param_groups[0]['lr'], self.loss))
            
             if epoch > args.epoch - 10:
                 torch.save(self.program.unet.state_dict(), 
@@ -224,7 +224,7 @@ class Adversarial_Reprogramming():
         acc = top1 / float(args.batch_size * len(self.test_loader))
         self.log('==========Test origin model result on benign test dataset==========')
         self.log('[%s] Top-1 correct / Total: %d/%d, Top-1 accuracy: %.6f' % 
-                 (time.strftime('%Y-%m-%d_%H:%M:%S', time.localtime()), top1, args.batch_size * len(self.test_loader), acc))
+                 (time.strftime('%Y-%m-%d_%H-%M-%S', time.localtime()), top1, args.batch_size * len(self.test_loader), acc))
 
         if self.poisoned_test_loader:
             top1 = 0
@@ -239,7 +239,7 @@ class Adversarial_Reprogramming():
             asr = top1 / float(args.batch_size * len(self.poisoned_test_loader))
             self.log('==========Test origin model result on poisoned test dataset==========')
             self.log('[%s] Top-1 correct / Total: %d/%d, Top-1 accuracy: %.6f' % 
-                    (time.strftime('%Y-%m-%d_%H:%M:%S', time.localtime()), top1, args.batch_size * len(self.poisoned_test_loader), asr))
+                    (time.strftime('%Y-%m-%d_%H-%M-%S', time.localtime()), top1, args.batch_size * len(self.poisoned_test_loader), asr))
 
 def main():
     AR = Adversarial_Reprogramming()

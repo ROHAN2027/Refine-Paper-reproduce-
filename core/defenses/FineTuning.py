@@ -129,7 +129,7 @@ class FineTuning(Base):
         optimizer = torch.optim.SGD(model.parameters(), lr=current_schedule['lr'],
                                     momentum=current_schedule['momentum'],
                                     weight_decay=current_schedule['weight_decay'])
-        work_dir = osp.join(current_schedule['save_dir'], current_schedule['experiment_name'] + '_' + time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime()))
+        work_dir = osp.join(current_schedule['save_dir'], current_schedule['experiment_name'] + '_' + time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime()))
         self.work_dir = work_dir
         os.makedirs(work_dir, exist_ok=True)
         log = Log(osp.join(work_dir, 'log.txt'))
@@ -157,7 +157,7 @@ class FineTuning(Base):
 
                 iteration += 1
                 if iteration % current_schedule['log_iteration_interval'] == 0:
-                    msg = time.strftime("[%Y-%m-%d_%H:%M:%S] ",
+                    msg = time.strftime("[%Y-%m-%d_%H-%M-%S] ",
                                         time.localtime()) + f"Epoch:{i + 1}/{current_schedule['epochs']}, iteration:{batch_id + 1}/{len(self.train_dataset) // current_schedule['batch_size']}, lr: {current_schedule['lr']}, loss: {float(loss)}, time: {time.time() - last_time}\n"
                     last_time = time.time()
                     log(msg)

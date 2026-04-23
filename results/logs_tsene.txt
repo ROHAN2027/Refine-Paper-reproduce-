@@ -1,0 +1,39 @@
+(base) PS .\REFINE> $env:PYTHONIOENCODING='utf-8'; python visualize_tsne.py
+>>
+Device: cpu
+
+[1/5] Loading backdoored ResNet18...
+  Found checkpoint: ./attack/CIFAR10/ResNet18/BadNets\Normalize_ResNet18_CIFAR10_BadNets_2026-04-22_18-08-38\ckpt_epoch_150.pth
+  ✅ Backdoored model ready
+
+[2/5] Loading REFINE UNet...
+  Loading: ../refine_res/CIFAR10/RestNet18/BadNets\2026-04-23_02-43-02\unet_epoch150.pth
+  ✅ UNet loaded (unet_epoch150.pth)
+
+[3/5] Loading datasets...
+  ✅ Clean test: 10000 | Poisoned test: 9001
+
+[3.5/5] Generating Image Transformation Grids...
+  ✅ Saved: ./tsne_results\image_transformations.png
+
+[4/5] Extracting features (500 samples each)...
+  (a) Clean → Backdoored ResNet18
+  (b) Poisoned → Backdoored ResNet18                                                                                         
+  (c) REFINE(Clean) → Backdoored ResNet18
+  (d) REFINE(Poisoned) → Backdoored ResNet18
+  Feature dim: 512
+
+[5/5] Running t-SNE & generating plots...
+  Computing t-SNE for 4 scenarios...
+  ✅ Saved: ./tsne_results\tsne_4panel.png
+  Computing t-SNE for before/after comparison...
+  ✅ Saved: ./tsne_results\tsne_before_after.png
+  ✅ Saved: ./tsne_results\tsne_clean.png
+  ✅ Saved: ./tsne_results\tsne_poisoned.png
+  ✅ Saved: ./tsne_results\tsne_refine_clean.png
+  ✅ Saved: ./tsne_results\tsne_refine_poisoned.png
+
+==================================================
+✅ All 6 plots saved to: .\tsne_results
+   Total time: 1.3 minutes
+==================================================

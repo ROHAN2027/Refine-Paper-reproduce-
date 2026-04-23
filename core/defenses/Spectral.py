@@ -80,7 +80,7 @@ class Spectral(Base):
         """
         
         # get logger
-        work_dir = osp.join(schedule['save_dir'], schedule['experiment_name'] + '_' + time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime()))
+        work_dir = osp.join(schedule['save_dir'], schedule['experiment_name'] + '_' + time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime()))
         os.makedirs(work_dir, exist_ok=True)
         log = Log(osp.join(work_dir, 'log.txt'))
 
@@ -403,7 +403,7 @@ class Spectral(Base):
                 iteration += 1
 
                 if iteration % self.current_schedule['log_iteration_interval'] == 0:
-                    msg = time.strftime("[%Y-%m-%d_%H:%M:%S] ", time.localtime()) + f"Epoch:{i+1}/{self.current_schedule['epochs']}, iteration:{batch_id + 1}/{len(dataset)//self.current_schedule['batch_size']}, lr: {self.current_schedule['lr']}, time: {time.time()-last_time}\n"
+                    msg = time.strftime("[%Y-%m-%d_%H-%M-%S] ", time.localtime()) + f"Epoch:{i+1}/{self.current_schedule['epochs']}, iteration:{batch_id + 1}/{len(dataset)//self.current_schedule['batch_size']}, lr: {self.current_schedule['lr']}, time: {time.time()-last_time}\n"
                     last_time = time.time()
                     log(msg)
                     model.train()
@@ -413,7 +413,7 @@ class Spectral(Base):
                 clean_loss, acc, _, _ = self.test(model, self.clean_testset, self.test_schedule)
                 model.train()
                 msg = "==========Test results ==========\n" + \
-                            time.strftime("[%Y-%m-%d_%H:%M:%S] ", time.localtime()) + f"Epoch:{i+1}/{self.current_schedule['epochs']}" +\
+                            time.strftime("[%Y-%m-%d_%H-%M-%S] ", time.localtime()) + f"Epoch:{i+1}/{self.current_schedule['epochs']}" +\
                             " ASR: %.2f Acc: %.2f poison_loss: %.3f clean_loss: %.3f\n"%(asr, acc, poison_loss, clean_loss)
                 log(msg)
 
